@@ -25,7 +25,7 @@ import static com.example.travel.database.schema.tables.UserAccount.USER_ACCOUNT
 public class LoginController {
 
     @FXML
-    private Button cancelButton;
+    private Button cancelButton, loginButton;
 
     @FXML
     private Label loginMessageLabel;
@@ -48,6 +48,21 @@ public class LoginController {
             if(isLoginValid(usernameTextField.getText(), passwordField.getText())) {
                 loginMessageLabel.setText("Connected!");
                 loginMessageLabel.setStyle("-fx-text-fill: green");
+
+                Stage stage = (Stage) loginButton.getScene().getWindow();
+                stage.close();
+
+                try {
+                    Parent root = FXMLLoader.load(Application.class.getResource("view/mainWindow.fxml"));
+                    Stage mainStage = new Stage();
+                    Scene scene = new Scene(root, 700, 430);
+                    scene.getStylesheets().add(Application.class.getResource("style/style.css").toExternalForm());
+                    mainStage.setScene(scene);
+                    mainStage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
             else {
                 loginMessageLabel.setText("Invalid username or password. Please try again!");
@@ -72,8 +87,6 @@ public class LoginController {
                 from(USER_ACCOUNT).
                 where(USER_ACCOUNT.USERNAME.eq(username).and(USER_ACCOUNT.PASSWORD.eq(password)))
                         .execute();
-
-        System.out.println(result);
 
         try {
             connection.close();

@@ -13,3 +13,16 @@
     -fx-cursor: hand;
     -fx-font-weight: bold;
 }
+
+.btn-blue {
+    -fx-background-color: #BFD7ED;
+}
+
+.btn-blue:hover {
+    -fx-cursor: hand;
+    -fx-background-color: #60A3D9;
+}
+
+.exit-image {
+    -fx-cursor: hand;
+}

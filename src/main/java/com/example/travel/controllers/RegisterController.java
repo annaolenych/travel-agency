@@ -55,7 +55,6 @@ public class RegisterController {
     public void cancelButtonOnAction(ActionEvent event) {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
-        Platform.exit();
     }
 
     public void registerUser(String firstname, String lastname, String username, String password) {
