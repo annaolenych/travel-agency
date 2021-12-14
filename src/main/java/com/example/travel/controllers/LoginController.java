@@ -49,13 +49,15 @@ public class LoginController {
                 loginMessageLabel.setText("Connected!");
                 loginMessageLabel.setStyle("-fx-text-fill: green");
 
+                DatabaseConnection.initUserAccount(usernameTextField.getText(), passwordField.getText());
+
                 Stage stage = (Stage) loginButton.getScene().getWindow();
                 stage.close();
 
                 try {
                     Parent root = FXMLLoader.load(Application.class.getResource("view/mainWindow.fxml"));
                     Stage mainStage = new Stage();
-                    Scene scene = new Scene(root, 700, 430);
+                    Scene scene = new Scene(root, 1000, 435);
                     scene.getStylesheets().add(Application.class.getResource("style/style.css").toExternalForm());
                     mainStage.setScene(scene);
                     mainStage.show();

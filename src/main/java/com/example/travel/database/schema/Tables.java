@@ -4,17 +4,59 @@
 package com.example.travel.database.schema;
 
 
+import com.example.travel.database.schema.tables.Country;
+import com.example.travel.database.schema.tables.Customer;
+import com.example.travel.database.schema.tables.Hotel;
+import com.example.travel.database.schema.tables.Nutrition;
+import com.example.travel.database.schema.tables.Transport;
+import com.example.travel.database.schema.tables.Travel;
+import com.example.travel.database.schema.tables.TravelType;
 import com.example.travel.database.schema.tables.UserAccount;
 
 
 /**
- * Convenience access to all tables in travel_agency.
+ * Convenience access to all tables in sql4458432.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
 
     /**
-     * The table <code>travel_agency.user_account</code>.
+     * The table <code>sql4458432.country</code>.
+     */
+    public static final Country COUNTRY = Country.COUNTRY;
+
+    /**
+     * The table <code>sql4458432.customer</code>.
+     */
+    public static final Customer CUSTOMER = Customer.CUSTOMER;
+
+    /**
+     * The table <code>sql4458432.hotel</code>.
+     */
+    public static final Hotel HOTEL = Hotel.HOTEL;
+
+    /**
+     * The table <code>sql4458432.nutrition</code>.
+     */
+    public static final Nutrition NUTRITION = Nutrition.NUTRITION;
+
+    /**
+     * The table <code>sql4458432.transport</code>.
+     */
+    public static final Transport TRANSPORT = Transport.TRANSPORT;
+
+    /**
+     * The table <code>sql4458432.travel</code>.
+     */
+    public static final Travel TRAVEL = Travel.TRAVEL;
+
+    /**
+     * The table <code>sql4458432.travel_type</code>.
+     */
+    public static final TravelType TRAVEL_TYPE = TravelType.TRAVEL_TYPE;
+
+    /**
+     * The table <code>sql4458432.user_account</code>.
      */
     public static final UserAccount USER_ACCOUNT = UserAccount.USER_ACCOUNT;
 }

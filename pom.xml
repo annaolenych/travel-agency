@@ -111,9 +111,12 @@
                 <configuration>
                     <jdbc>
                         <driver>com.mysql.cj.jdbc.Driver</driver>
-                        <url>jdbc:mysql://localhost:3306/travel_agency</url>
-                        <user>root</user>
-                        <password>root</password>
+<!--                        <url>jdbc:mysql://localhost:3306/travel_agency</url>-->
+<!--                        <user>root</user>-->
+<!--                        <password>root</password>-->
+                        <url>jdbc:mysql://sql4.freemysqlhosting.net:3306/sql4458432</url>
+                        <user>sql4458432</user>
+                        <password>7uCCB9zwEM</password>
                     </jdbc>
 
                     <generator>
@@ -121,7 +124,8 @@
                             <name>org.jooq.meta.mysql.MySQLDatabase</name>
                             <includes>.*</includes>
                             <excludes></excludes>
-                            <inputSchema>travel_agency</inputSchema>
+<!--                            <inputSchema>travel_agency</inputSchema>-->
+                            <inputSchema>sql4458432</inputSchema>
                         </database>
                         <target>
                             <packageName>com.example.travel.database.schema</packageName>
@@ -141,9 +145,12 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <jdbc.user>root</jdbc.user>
-                <jdbc.password>root</jdbc.password>
-                <jdbc.url>jdbc:mysql://localhost:3306/travel_agency</jdbc.url>
+                <jdbc.user>sql4458432</jdbc.user>
+                <jdbc.password>7uCCB9zwEM</jdbc.password>
+                <jdbc.url>jdbc:mysql://sql4.freemysqlhosting.net:3306/sql4458432</jdbc.url>
+<!--                <jdbc.user>root</jdbc.user>-->
+<!--                <jdbc.password>root</jdbc.password>-->
+<!--                <jdbc.url>jdbc:mysql://localhost:3306/travel_agency</jdbc.url>-->
                 <jdbc.driver>com.mysql.cj.jdbc.Driver</jdbc.driver>
             </properties>
         </profile>

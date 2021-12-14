@@ -14,5 +14,6 @@ module com.example.travel {
 
     opens com.example.travel.controllers to javafx.fxml;
     opens com.example.travel.database.schema to org.jooq;
+    opens com.example.travel.model to javafx.base;
     exports com.example.travel.database.schema.tables to org.jooq;
 }

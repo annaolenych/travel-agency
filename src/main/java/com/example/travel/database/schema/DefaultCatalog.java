@@ -25,9 +25,9 @@ public class DefaultCatalog extends CatalogImpl {
     public static final DefaultCatalog DEFAULT_CATALOG = new DefaultCatalog();
 
     /**
-     * The schema <code>travel_agency</code>.
+     * The schema <code>sql4458432</code>.
      */
-    public final TravelAgency TRAVEL_AGENCY = TravelAgency.TRAVEL_AGENCY;
+    public final Sql4458432 SQL4458432 = Sql4458432.SQL4458432;
 
     /**
      * No further instances allowed
@@ -39,7 +39,7 @@ public class DefaultCatalog extends CatalogImpl {
     @Override
     public final List<Schema> getSchemas() {
         return Arrays.asList(
-            TravelAgency.TRAVEL_AGENCY
+            Sql4458432.SQL4458432
         );
     }
 }

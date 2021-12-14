@@ -5,7 +5,7 @@ package com.example.travel.database.schema.tables;
 
 
 import com.example.travel.database.schema.Keys;
-import com.example.travel.database.schema.TravelAgency;
+import com.example.travel.database.schema.Sql4458432;
 import com.example.travel.database.schema.tables.records.UserAccountRecord;
 
 import java.util.Arrays;
@@ -36,7 +36,7 @@ public class UserAccount extends TableImpl<UserAccountRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>travel_agency.user_account</code>
+     * The reference instance of <code>sql4458432.user_account</code>
      */
     public static final UserAccount USER_ACCOUNT = new UserAccount();
 
@@ -49,27 +49,27 @@ public class UserAccount extends TableImpl<UserAccountRecord> {
     }
 
     /**
-     * The column <code>travel_agency.user_account.account_id</code>.
+     * The column <code>sql4458432.user_account.account_id</code>.
      */
     public final TableField<UserAccountRecord, Integer> ACCOUNT_ID = createField(DSL.name("account_id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>travel_agency.user_account.firstname</code>.
+     * The column <code>sql4458432.user_account.firstname</code>.
      */
     public final TableField<UserAccountRecord, String> FIRSTNAME = createField(DSL.name("firstname"), SQLDataType.VARCHAR(45).nullable(false), this, "");
 
     /**
-     * The column <code>travel_agency.user_account.lastname</code>.
+     * The column <code>sql4458432.user_account.lastname</code>.
      */
     public final TableField<UserAccountRecord, String> LASTNAME = createField(DSL.name("lastname"), SQLDataType.VARCHAR(45).nullable(false), this, "");
 
     /**
-     * The column <code>travel_agency.user_account.username</code>.
+     * The column <code>sql4458432.user_account.username</code>.
      */
     public final TableField<UserAccountRecord, String> USERNAME = createField(DSL.name("username"), SQLDataType.VARCHAR(45).nullable(false), this, "");
 
     /**
-     * The column <code>travel_agency.user_account.password</code>.
+     * The column <code>sql4458432.user_account.password</code>.
      */
     public final TableField<UserAccountRecord, String> PASSWORD = createField(DSL.name("password"), SQLDataType.VARCHAR(45).nullable(false), this, "");
 
@@ -82,21 +82,21 @@ public class UserAccount extends TableImpl<UserAccountRecord> {
     }
 
     /**
-     * Create an aliased <code>travel_agency.user_account</code> table reference
+     * Create an aliased <code>sql4458432.user_account</code> table reference
      */
     public UserAccount(String alias) {
         this(DSL.name(alias), USER_ACCOUNT);
     }
 
     /**
-     * Create an aliased <code>travel_agency.user_account</code> table reference
+     * Create an aliased <code>sql4458432.user_account</code> table reference
      */
     public UserAccount(Name alias) {
         this(alias, USER_ACCOUNT);
     }
 
     /**
-     * Create a <code>travel_agency.user_account</code> table reference
+     * Create a <code>sql4458432.user_account</code> table reference
      */
     public UserAccount() {
         this(DSL.name("user_account"), null);
@@ -108,7 +108,7 @@ public class UserAccount extends TableImpl<UserAccountRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : TravelAgency.TRAVEL_AGENCY;
+        return aliased() ? null : Sql4458432.SQL4458432;
     }
 
     @Override

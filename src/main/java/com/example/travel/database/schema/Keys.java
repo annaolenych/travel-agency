@@ -4,9 +4,24 @@
 package com.example.travel.database.schema;
 
 
+import com.example.travel.database.schema.tables.Country;
+import com.example.travel.database.schema.tables.Customer;
+import com.example.travel.database.schema.tables.Hotel;
+import com.example.travel.database.schema.tables.Nutrition;
+import com.example.travel.database.schema.tables.Transport;
+import com.example.travel.database.schema.tables.Travel;
+import com.example.travel.database.schema.tables.TravelType;
 import com.example.travel.database.schema.tables.UserAccount;
+import com.example.travel.database.schema.tables.records.CountryRecord;
+import com.example.travel.database.schema.tables.records.CustomerRecord;
+import com.example.travel.database.schema.tables.records.HotelRecord;
+import com.example.travel.database.schema.tables.records.NutritionRecord;
+import com.example.travel.database.schema.tables.records.TransportRecord;
+import com.example.travel.database.schema.tables.records.TravelRecord;
+import com.example.travel.database.schema.tables.records.TravelTypeRecord;
 import com.example.travel.database.schema.tables.records.UserAccountRecord;
 
+import org.jooq.ForeignKey;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
@@ -15,7 +30,7 @@ import org.jooq.impl.Internal;
 
 /**
  * A class modelling foreign key relationships and constraints of tables in
- * travel_agency.
+ * sql4458432.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Keys {
@@ -24,7 +39,20 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<CountryRecord> KEY_COUNTRY_PRIMARY = Internal.createUniqueKey(Country.COUNTRY, DSL.name("KEY_country_PRIMARY"), new TableField[] { Country.COUNTRY.COUNTRY_ID }, true);
+    public static final UniqueKey<CustomerRecord> KEY_CUSTOMER_PRIMARY = Internal.createUniqueKey(Customer.CUSTOMER, DSL.name("KEY_customer_PRIMARY"), new TableField[] { Customer.CUSTOMER.CUSTOMER_ID }, true);
+    public static final UniqueKey<HotelRecord> KEY_HOTEL_PRIMARY = Internal.createUniqueKey(Hotel.HOTEL, DSL.name("KEY_hotel_PRIMARY"), new TableField[] { Hotel.HOTEL.HOTEL_ID }, true);
+    public static final UniqueKey<NutritionRecord> KEY_NUTRITION_PRIMARY = Internal.createUniqueKey(Nutrition.NUTRITION, DSL.name("KEY_nutrition_PRIMARY"), new TableField[] { Nutrition.NUTRITION.NUTRITION_ID }, true);
+    public static final UniqueKey<TransportRecord> KEY_TRANSPORT_PRIMARY = Internal.createUniqueKey(Transport.TRANSPORT, DSL.name("KEY_transport_PRIMARY"), new TableField[] { Transport.TRANSPORT.TRANSPORT_ID }, true);
+    public static final UniqueKey<TravelRecord> KEY_TRAVEL_PRIMARY = Internal.createUniqueKey(Travel.TRAVEL, DSL.name("KEY_travel_PRIMARY"), new TableField[] { Travel.TRAVEL.TRAVEL_ID }, true);
+    public static final UniqueKey<TravelTypeRecord> KEY_TRAVEL_TYPE_PRIMARY = Internal.createUniqueKey(TravelType.TRAVEL_TYPE, DSL.name("KEY_travel_type_PRIMARY"), new TableField[] { TravelType.TRAVEL_TYPE.TYPE_ID }, true);
     public static final UniqueKey<UserAccountRecord> KEY_USER_ACCOUNT_ACCOUNT_ID_UNIQUE = Internal.createUniqueKey(UserAccount.USER_ACCOUNT, DSL.name("KEY_user_account_account_id_UNIQUE"), new TableField[] { UserAccount.USER_ACCOUNT.ACCOUNT_ID }, true);
     public static final UniqueKey<UserAccountRecord> KEY_USER_ACCOUNT_PRIMARY = Internal.createUniqueKey(UserAccount.USER_ACCOUNT, DSL.name("KEY_user_account_PRIMARY"), new TableField[] { UserAccount.USER_ACCOUNT.ACCOUNT_ID }, true);
     public static final UniqueKey<UserAccountRecord> KEY_USER_ACCOUNT_USERNAME_UNIQUE = Internal.createUniqueKey(UserAccount.USER_ACCOUNT, DSL.name("KEY_user_account_username_UNIQUE"), new TableField[] { UserAccount.USER_ACCOUNT.USERNAME }, true);
+
+    // -------------------------------------------------------------------------
+    // FOREIGN KEY definitions
+    // -------------------------------------------------------------------------
+
+    public static final ForeignKey<HotelRecord, CountryRecord> COUNTRYID = Internal.createForeignKey(Hotel.HOTEL, DSL.name("countryID"), new TableField[] { Hotel.HOTEL.COUNTRY_NO }, Keys.KEY_COUNTRY_PRIMARY, new TableField[] { Country.COUNTRY.COUNTRY_ID }, true);
 }
