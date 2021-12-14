@@ -1,0 +1,15 @@
+.purple-btn {
+    -fx-background-color:  #B4F8C8;
+}
+
+
+.purple-btn:hover {
+    -fx-background-color: #7CF3A0;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
+
+#signUpLabel:hover {
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
