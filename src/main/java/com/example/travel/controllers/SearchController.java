@@ -6,12 +6,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
@@ -35,6 +38,12 @@ import static com.example.travel.database.schema.tables.TravelType.TRAVEL_TYPE;
 import static com.example.travel.database.schema.tables.UserAccount.USER_ACCOUNT;
 
 public class SearchController implements Initializable {
+
+    @FXML
+    private ImageView refreshImageView;
+
+    @FXML
+    private Button refreshButton;
 
     @FXML
     private TextField keywordTextField;
@@ -77,50 +86,7 @@ public class SearchController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        Connection connection = new DatabaseConnection().getConnection();
-
-        DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
-        Result<?> select = context.
-                select(TRAVEL.TRAVEL_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME,
-                        TRAVEL_TYPE.NAME, COUNTRY.NAME, HOTEL.NAME, NUTRITION.NAME, TRANSPORT.NAME, TRAVEL.ARRIVAL, TRAVEL.DEPARTURE)
-                .from(TRAVEL)
-                .innerJoin(CUSTOMER)
-                .on(CUSTOMER.CUSTOMER_ID.eq(TRAVEL.CUSTOMER_ID))
-                .innerJoin(TRAVEL_TYPE)
-                .on(TRAVEL_TYPE.TYPE_ID.eq(TRAVEL.TRAVEL_ID))
-                .innerJoin(COUNTRY)
-                .on(COUNTRY.COUNTRY_ID.eq(TRAVEL.COUNTRY_ID))
-                .innerJoin(HOTEL)
-                .on(HOTEL.HOTEL_ID.eq(TRAVEL.HOTEL_ID))
-                .innerJoin(NUTRITION)
-                .on(NUTRITION.NUTRITION_ID.eq(TRAVEL.NUTRITION_ID))
-                .innerJoin(TRANSPORT)
-                .on(TRANSPORT.TRANSPORT_ID.eq(TRAVEL.TRANSPORT_ID))
-                .innerJoin(USER_ACCOUNT)
-                .on(USER_ACCOUNT.ACCOUNT_ID.eq(TRAVEL.USER_ID))
-                .where(USER_ACCOUNT.USERNAME.equal(DatabaseConnection.user.getLogin()))
-                .fetch();
-
-        for (Record record: select) {
-
-            Integer travelID = record.getValue(TRAVEL.TRAVEL_ID);
-
-            String firstname = record.getValue(CUSTOMER.FIRSTNAME);
-            String lastname = record.getValue(CUSTOMER.LASTNAME);
-
-            String travelType = record.getValue(TRAVEL_TYPE.NAME);
-            String country = record.getValue(COUNTRY.NAME);
-            String hotel = record.getValue(HOTEL.NAME);
-
-            String nutrition = record.getValue(NUTRITION.NAME);
-            String transport = record.getValue(TRANSPORT.NAME);
-
-            LocalDate arrival = record.getValue(TRAVEL.ARRIVAL);
-            LocalDate departure = record.getValue(TRAVEL.DEPARTURE);
-
-            Travel travel = new Travel(travelID, firstname, lastname, travelType, country, hotel, nutrition, transport, arrival, departure);
-            travelObservableList.add(travel);
-        }
+        initTravelTableView();
 
         idColumn.setCellValueFactory(new PropertyValueFactory<>("travelID"));
         firstnameColumn.setCellValueFactory(new PropertyValueFactory<>("firstname"));
@@ -173,7 +139,50 @@ public class SearchController implements Initializable {
 
         sortedList.comparatorProperty().bind(travelTableView.comparatorProperty());
         travelTableView.setItems(sortedList);
+    }
 
+    public void initTravelTableView() {
+        Connection connection = new DatabaseConnection().getConnection();
 
+        DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
+        Result<?> select = context.
+                select(TRAVEL.TRAVEL_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME,
+                        TRAVEL_TYPE.NAME, COUNTRY.NAME, HOTEL.NAME, NUTRITION.NAME, TRANSPORT.NAME, TRAVEL.ARRIVAL, TRAVEL.DEPARTURE)
+                .from(TRAVEL, CUSTOMER, TRAVEL_TYPE, COUNTRY, HOTEL, NUTRITION, TRANSPORT)
+                .where(TRAVEL.USER_ID.eq(new DatabaseConnection().user.getUserID()).
+                        and(TRAVEL.CUSTOMER_ID.eq(CUSTOMER.CUSTOMER_ID))
+                        .and(TRAVEL.TYPE_ID.eq(TRAVEL_TYPE.TYPE_ID))
+                        .and(TRAVEL.COUNTRY_ID.eq(COUNTRY.COUNTRY_ID))
+                        .and(TRAVEL.HOTEL_ID.eq(HOTEL.HOTEL_ID))
+                        .and(TRAVEL.NUTRITION_ID.eq(NUTRITION.NUTRITION_ID))
+                        .and(TRAVEL.TRANSPORT_ID.eq(TRANSPORT.TRANSPORT_ID)))
+                .orderBy(TRAVEL.TRAVEL_ID)
+                .fetch();
+
+        for (Record record: select) {
+
+            Integer travelID = record.getValue(TRAVEL.TRAVEL_ID);
+
+            String firstname = record.getValue(CUSTOMER.FIRSTNAME);
+            String lastname = record.getValue(CUSTOMER.LASTNAME);
+
+            String travelType = record.getValue(TRAVEL_TYPE.NAME);
+            String country = record.getValue(COUNTRY.NAME);
+            String hotel = record.getValue(HOTEL.NAME);
+
+            String nutrition = record.getValue(NUTRITION.NAME);
+            String transport = record.getValue(TRANSPORT.NAME);
+
+            LocalDate arrival = record.getValue(TRAVEL.ARRIVAL);
+            LocalDate departure = record.getValue(TRAVEL.DEPARTURE);
+            Travel travel = new Travel(travelID, firstname, lastname, travelType, country, hotel, nutrition, transport, arrival, departure);
+            travelObservableList.add(travel);
+        }
+    }
+
+    public void refreshImageViewOnAction(ActionEvent event) {
+        travelObservableList.clear();
+        initTravelTableView();
+        travelTableView.refresh();
     }
 }

@@ -110,5 +110,15 @@
             <Image url="@../images/main/book/plane.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="failedImageView" fitHeight="50.0" fitWidth="78.0" layoutX="29.0" layoutY="347.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/main/book/icons8-scorecard-40.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="successfulImageView" fitHeight="46.0" fitWidth="60.0" layoutX="31.0" layoutY="349.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/main/book/icons8-ok-144.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>

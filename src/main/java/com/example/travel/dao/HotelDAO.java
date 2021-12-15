@@ -28,7 +28,8 @@ public class HotelDAO {
                 .where(HOTEL.COUNTRY_NO.eq(countryID))
                 .fetch();
         for (HotelRecord record : result) {
-            hotelList.add(new Hotel(record.getValue(HOTEL.HOTEL_ID), record.getValue(HOTEL.COUNTRY_NO), record.getValue(HOTEL.NAME), record.getValue(HOTEL.DETAILS)));
+            Hotel hotel = new Hotel(record.getValue(HOTEL.HOTEL_ID), record.getValue(HOTEL.COUNTRY_NO), record.getValue(HOTEL.NAME), record.getValue(HOTEL.DETAILS));
+            hotelList.add(hotel);
         }
 
         ObservableList<Hotel> observableList = FXCollections.observableArrayList(hotelList);

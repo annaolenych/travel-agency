@@ -3,8 +3,7 @@ package com.example.travel.controllers;
 import com.example.travel.Application;
 import com.example.travel.dao.*;
 import com.example.travel.database.config.DatabaseConnection;
-import com.example.travel.model.Country;
-import com.example.travel.model.Hotel;
+import com.example.travel.model.*;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
@@ -23,9 +23,12 @@ import org.jooq.impl.DSL;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+
+import static com.example.travel.database.schema.tables.Travel.TRAVEL;
 
 
 public class BookController implements Initializable {
@@ -43,8 +46,13 @@ public class BookController implements Initializable {
     @FXML
     private DatePicker arrivalDatePicker, departureDatePicker;
 
+    @FXML
+    private ImageView failedImageView, successfulImageView;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        failedImageView.setVisible(false);
+        successfulImageView.setVisible(false);
 
         countryObservableList = CountryDAO.getObservableList();
         countryComboBox.setItems(countryObservableList);
@@ -80,9 +88,35 @@ public class BookController implements Initializable {
     }
 
     public void submitButtonOnAction(ActionEvent event) {
-        System.out.println("Hello, world!");
-    }
 
+        Country country = (Country) countryComboBox.getSelectionModel().getSelectedItem();
+        TravelType travelType = (TravelType)  travelTypeComboBox.getSelectionModel().getSelectedItem();
+        Hotel hotel = (Hotel) hotelComboBox.getSelectionModel().getSelectedItem();
+        Nutrition nutrition = (Nutrition) nutritionComboBox.getSelectionModel().getSelectedItem();
+        Transport transport = (Transport) transportComboBox.getSelectionModel().getSelectedItem();
+        Customer customer = (Customer) customerComboBox.getSelectionModel().getSelectedItem();
+        LocalDate arrival = arrivalDatePicker.getValue();
+        LocalDate departure = departureDatePicker.getValue();
+
+        if (country == null || travelType == null || hotel == null ||
+                nutrition == null || transport == null || customer == null || arrival == null || departure == null) {
+            successfulImageView.setVisible(false);
+            failedImageView.setVisible(true);
+        }
+        else {
+            failedImageView.setVisible(false);
+            successfulImageView.setVisible(true);
+            Connection connection = new DatabaseConnection().getConnection();
+            DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
+
+            context.insertInto(TRAVEL, TRAVEL.USER_ID, TRAVEL.CUSTOMER_ID, TRAVEL.TYPE_ID,
+                            TRAVEL.COUNTRY_ID, TRAVEL.HOTEL_ID, TRAVEL.TRANSPORT_ID, TRAVEL.NUTRITION_ID, TRAVEL.ARRIVAL, TRAVEL.DEPARTURE)
+                    .values(DatabaseConnection.user.getUserID(), customer.getCustomerID(), travelType.getTravelTypeID(),
+                            country.getCountryID(), hotel.getHotelID(), transport.getTransportID(), nutrition.getNutritionID(),
+                            arrival, departure)
+                    .execute();
+        }
+    }
 
 
 }
