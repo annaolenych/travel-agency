@@ -4,6 +4,8 @@ import com.example.travel.database.config.DatabaseConnection;
 import com.example.travel.model.Travel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -20,6 +22,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static com.example.travel.database.schema.tables.Country.COUNTRY;
@@ -132,5 +135,46 @@ public class SearchController implements Initializable {
         departureColumn.setCellValueFactory(new PropertyValueFactory<>("departure"));
 
         travelTableView.setItems(travelObservableList);
+
+        FilteredList<Travel> filteredList = new FilteredList<>(travelObservableList, b -> true);
+
+        keywordTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredList.setPredicate(travel -> {
+
+                if (newValue.isEmpty() || newValue.isBlank() || newValue == null)
+                    return true;
+
+                String searchKeyword = newValue.toLowerCase();
+
+                if (travel.getFirstname().toLowerCase().indexOf(searchKeyword) > -1) {
+                    return true;
+                } else if (travel.getLastname().toLowerCase().indexOf(searchKeyword) > -1) {
+                    return true;
+                } else if (travel.getTravelType().toLowerCase().indexOf(searchKeyword) > -1) {
+                    return true;
+                } else if (travel.getCountry().toLowerCase().indexOf(searchKeyword) > -1) {
+                    return true;
+                } else if (travel.getHotel().toLowerCase().indexOf(searchKeyword) > -1) {
+                    return true;
+                } else if (travel.getNutrition().toLowerCase().indexOf(searchKeyword) > -1) {
+                    return true;
+                } else if (travel.getTransport().toLowerCase().indexOf(searchKeyword) > -1) {
+                    return true;
+                } else if (travel.getArrival().toString().toLowerCase().indexOf(searchKeyword) > -1) {
+                    return true;
+                } else if (travel.getDeparture().toString().toLowerCase().indexOf(searchKeyword) > -1) {
+                    return true;
+                }
+
+                return false;
+            });
+        });
+
+        SortedList<Travel> sortedList = new SortedList<>(filteredList);
+
+        sortedList.comparatorProperty().bind(travelTableView.comparatorProperty());
+        travelTableView.setItems(sortedList);
+
+
     }
 }
