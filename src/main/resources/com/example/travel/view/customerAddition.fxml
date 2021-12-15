@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="490.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.travel.controllers.CustomerAdditionController">
+   <children>
+      <AnchorPane prefHeight="82.0" prefWidth="520.0" style="-fx-background-color: a0dde6;">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="128.0" layoutY="25.0" text="Customer Profile">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="58.0" fitWidth="68.0" layoutX="60.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/main/book/icons8-add-user-male-50.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <TextField fx:id="firstnameTextField" layoutX="92.0" layoutY="138.0" prefHeight="25.0" prefWidth="336.0" promptText="First name" styleClass="customer-text-field">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="lastnameTextField" layoutX="92.0" layoutY="202.0" prefHeight="25.0" prefWidth="336.0" promptText="Last name" styleClass="customer-text-field">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextField>
+      <Label layoutX="92.0" layoutY="112.0" text="First name">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="92.0" layoutY="176.0" text="Last name">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="emailTextField" layoutX="92.0" layoutY="271.0" prefHeight="25.0" prefWidth="336.0" promptText="Username" styleClass="customer-text-field">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextField>
+      <Label layoutX="92.0" layoutY="244.0" text="Email">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="93.0" layoutY="313.0" text="Passport code">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="addButton" layoutX="146.0" layoutY="384.0" mnemonicParsing="false" onAction="#addButtonOnClick" prefHeight="32.0" prefWidth="240.0" styleClass="purple-btn" text="Add">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="cancelButton" layoutX="146.0" layoutY="436.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="32.0" prefWidth="240.0" styleClass="purple-btn" text="Cancel">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <Label fx:id="profileLabel" layoutX="173.0" layoutY="92.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="passportCodeTextField" layoutX="92.0" layoutY="342.0" prefHeight="25.0" prefWidth="336.0" promptText="Passport code" styleClass="customer-text-field">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextField>
+   </children>
+</AnchorPane>

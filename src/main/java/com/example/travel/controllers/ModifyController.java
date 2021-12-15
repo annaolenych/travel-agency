@@ -1,4 +1,7 @@
 package com.example.travel.controllers;
 
-public class ModifyController {
-}
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+
+public class ModifyController { }

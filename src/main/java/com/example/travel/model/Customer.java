@@ -3,17 +3,27 @@ package com.example.travel.model;
 public class Customer {
 
     private Integer customerID;
+    private Integer userID;
     private String firstname;
     private String lastname;
     private String email;
     private String passportcode;
 
-    public Customer(Integer customerID, String firstname, String lastname, String email, String passportcode) {
+    public Customer(Integer customerID, Integer userID, String firstname, String lastname, String email, String passportcode) {
         this.customerID = customerID;
+        this.userID = userID;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.passportcode = passportcode;
+    }
+
+    public Integer getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Integer userID) {
+        this.userID = userID;
     }
 
     public Integer getCustomerID() {
@@ -54,5 +64,10 @@ public class Customer {
 
     public void setPassportcode(String passportcode) {
         this.passportcode = passportcode;
+    }
+
+    @Override
+    public String toString() {
+        return this.firstname + " " + this.lastname;
     }
 }

@@ -13,7 +13,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row5;
+import org.jooq.Row6;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -49,6 +49,11 @@ public class Customer extends TableImpl<CustomerRecord> {
      * The column <code>sql4458432.customer.customer_id</code>.
      */
     public final TableField<CustomerRecord, Integer> CUSTOMER_ID = createField(DSL.name("customer_id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+
+    /**
+     * The column <code>sql4458432.customer.user_id</code>.
+     */
+    public final TableField<CustomerRecord, Integer> USER_ID = createField(DSL.name("user_id"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>sql4458432.customer.firstname</code>.
@@ -145,11 +150,11 @@ public class Customer extends TableImpl<CustomerRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row5 type methods
+    // Row6 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<Integer, String, String, String, String> fieldsRow() {
-        return (Row5) super.fieldsRow();
+    public Row6<Integer, Integer, String, String, String, String> fieldsRow() {
+        return (Row6) super.fieldsRow();
     }
 }

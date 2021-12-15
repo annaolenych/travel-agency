@@ -120,7 +120,6 @@ public class SearchController implements Initializable {
 
             Travel travel = new Travel(travelID, firstname, lastname, travelType, country, hotel, nutrition, transport, arrival, departure);
             travelObservableList.add(travel);
-
         }
 
         idColumn.setCellValueFactory(new PropertyValueFactory<>("travelID"));
