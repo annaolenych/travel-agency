@@ -155,6 +155,68 @@ public class Travel extends TableImpl<TravelRecord> {
     }
 
     @Override
+    public List<ForeignKey<TravelRecord, ?>> getReferences() {
+        return Arrays.asList(Keys.TRAVEL_IBFK_1, Keys.TRAVEL_IBFK_2, Keys.TRAVEL_IBFK_3, Keys.TRAVEL_IBFK_4, Keys.TRAVEL_IBFK_5, Keys.TRAVEL_IBFK_6, Keys.TRAVEL_IBFK_7);
+    }
+
+    private transient UserAccount _userAccount;
+    private transient Customer _customer;
+    private transient TravelType _travelType;
+    private transient Country _country;
+    private transient Hotel _hotel;
+    private transient Transport _transport;
+    private transient Nutrition _nutrition;
+
+    public UserAccount userAccount() {
+        if (_userAccount == null)
+            _userAccount = new UserAccount(this, Keys.TRAVEL_IBFK_1);
+
+        return _userAccount;
+    }
+
+    public Customer customer() {
+        if (_customer == null)
+            _customer = new Customer(this, Keys.TRAVEL_IBFK_2);
+
+        return _customer;
+    }
+
+    public TravelType travelType() {
+        if (_travelType == null)
+            _travelType = new TravelType(this, Keys.TRAVEL_IBFK_3);
+
+        return _travelType;
+    }
+
+    public Country country() {
+        if (_country == null)
+            _country = new Country(this, Keys.TRAVEL_IBFK_4);
+
+        return _country;
+    }
+
+    public Hotel hotel() {
+        if (_hotel == null)
+            _hotel = new Hotel(this, Keys.TRAVEL_IBFK_5);
+
+        return _hotel;
+    }
+
+    public Transport transport() {
+        if (_transport == null)
+            _transport = new Transport(this, Keys.TRAVEL_IBFK_6);
+
+        return _transport;
+    }
+
+    public Nutrition nutrition() {
+        if (_nutrition == null)
+            _nutrition = new Nutrition(this, Keys.TRAVEL_IBFK_7);
+
+        return _nutrition;
+    }
+
+    @Override
     public Travel as(String alias) {
         return new Travel(DSL.name(alias), this);
     }

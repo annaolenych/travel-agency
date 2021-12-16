@@ -55,4 +55,11 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final ForeignKey<HotelRecord, CountryRecord> COUNTRYID = Internal.createForeignKey(Hotel.HOTEL, DSL.name("countryID"), new TableField[] { Hotel.HOTEL.COUNTRY_NO }, Keys.KEY_COUNTRY_PRIMARY, new TableField[] { Country.COUNTRY.COUNTRY_ID }, true);
+    public static final ForeignKey<TravelRecord, UserAccountRecord> TRAVEL_IBFK_1 = Internal.createForeignKey(Travel.TRAVEL, DSL.name("travel_ibfk_1"), new TableField[] { Travel.TRAVEL.USER_ID }, Keys.KEY_USER_ACCOUNT_PRIMARY, new TableField[] { UserAccount.USER_ACCOUNT.ACCOUNT_ID }, true);
+    public static final ForeignKey<TravelRecord, CustomerRecord> TRAVEL_IBFK_2 = Internal.createForeignKey(Travel.TRAVEL, DSL.name("travel_ibfk_2"), new TableField[] { Travel.TRAVEL.CUSTOMER_ID }, Keys.KEY_CUSTOMER_PRIMARY, new TableField[] { Customer.CUSTOMER.CUSTOMER_ID }, true);
+    public static final ForeignKey<TravelRecord, TravelTypeRecord> TRAVEL_IBFK_3 = Internal.createForeignKey(Travel.TRAVEL, DSL.name("travel_ibfk_3"), new TableField[] { Travel.TRAVEL.TYPE_ID }, Keys.KEY_TRAVEL_TYPE_PRIMARY, new TableField[] { TravelType.TRAVEL_TYPE.TYPE_ID }, true);
+    public static final ForeignKey<TravelRecord, CountryRecord> TRAVEL_IBFK_4 = Internal.createForeignKey(Travel.TRAVEL, DSL.name("travel_ibfk_4"), new TableField[] { Travel.TRAVEL.COUNTRY_ID }, Keys.KEY_COUNTRY_PRIMARY, new TableField[] { Country.COUNTRY.COUNTRY_ID }, true);
+    public static final ForeignKey<TravelRecord, HotelRecord> TRAVEL_IBFK_5 = Internal.createForeignKey(Travel.TRAVEL, DSL.name("travel_ibfk_5"), new TableField[] { Travel.TRAVEL.HOTEL_ID }, Keys.KEY_HOTEL_PRIMARY, new TableField[] { Hotel.HOTEL.HOTEL_ID }, true);
+    public static final ForeignKey<TravelRecord, TransportRecord> TRAVEL_IBFK_6 = Internal.createForeignKey(Travel.TRAVEL, DSL.name("travel_ibfk_6"), new TableField[] { Travel.TRAVEL.TRANSPORT_ID }, Keys.KEY_TRANSPORT_PRIMARY, new TableField[] { Transport.TRANSPORT.TRANSPORT_ID }, true);
+    public static final ForeignKey<TravelRecord, NutritionRecord> TRAVEL_IBFK_7 = Internal.createForeignKey(Travel.TRAVEL, DSL.name("travel_ibfk_7"), new TableField[] { Travel.TRAVEL.NUTRITION_ID }, Keys.KEY_NUTRITION_PRIMARY, new TableField[] { Nutrition.NUTRITION.NUTRITION_ID }, true);
 }
