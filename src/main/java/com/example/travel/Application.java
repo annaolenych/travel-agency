@@ -28,19 +28,6 @@ public class Application extends javafx.application.Application {
     }
 
     public static void main(String[] args) {
-//        Connection connection = new DatabaseConnection().getConnection();
-//        DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
-//
-//        context.insertInto(HOTEL, HOTEL.NAME, HOTEL.COUNTRY_NO)
-//                .values("Park Hyatt Sydney", 1)
-//                .execute();
-//
-//        try {
-//            connection.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-
         launch();
     }
 }

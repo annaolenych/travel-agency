@@ -94,7 +94,7 @@ public class DeleteController implements Initializable {
                             context.deleteFrom(TRAVEL)
                                     .where(TRAVEL.TRAVEL_ID.eq(travel.getTravelID()))
                                     .execute();
-
+                            refresh();
                         });
 
                         HBox managebtn = new HBox(deleteIcon);
