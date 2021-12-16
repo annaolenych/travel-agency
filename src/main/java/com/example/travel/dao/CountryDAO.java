@@ -26,7 +26,6 @@ public class CountryDAO {
 
         try (Connection connection = DatabaseConnection.getConnection()) {
 
-
             DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
             Result<CountryRecord> result = context.selectFrom(COUNTRY)
                     .fetch();

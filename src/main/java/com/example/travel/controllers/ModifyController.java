@@ -1,14 +1,17 @@
 package com.example.travel.controllers;
 
+import com.example.travel.Application;
+import com.example.travel.context.TravelContext;
 import com.example.travel.dao.TravelDAO;
-import com.example.travel.database.config.DatabaseConnection;
 import com.example.travel.model.Travel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -16,20 +19,17 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.jooq.DSLContext;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
 
+import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-import static com.example.travel.database.schema.tables.Travel.TRAVEL;
-
 public class ModifyController implements Initializable {
+
+    public static String parameters;
 
     @FXML
     private TableView<Travel> travelTableView;
@@ -50,6 +50,9 @@ public class ModifyController implements Initializable {
     private TableColumn<Travel, String> deleteCol;
 
     private ObservableList<Travel> travelObservableList = FXCollections.observableArrayList();
+
+    @FXML
+    private Button refreshButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -84,19 +87,28 @@ public class ModifyController implements Initializable {
 
                         updateButton.setOnMouseClicked((MouseEvent event) -> {
                             Travel travel = travelTableView.getItems().get(getIndex());
+                            FXMLLoader loader = new FXMLLoader();
+                            TravelContext.getInstance().setTravel(travel);
 
+                            loader.setLocation(Application.class.getResource("view/editTravel.fxml"));
 
-                            try (Connection connection = DatabaseConnection.getConnection()) {
-                                DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
-
-                                context.deleteFrom(TRAVEL)
-                                        .where(TRAVEL.TRAVEL_ID.eq(travel.getTravelID()))
-                                        .execute();
-                            } catch (SQLException e) {
+                            try {
+                                loader.load();
+                            } catch (IOException e) {
                                 e.printStackTrace();
+                                e.getCause();
                             }
 
-                            refresh();
+                            EditTravelController editTravelController = loader.getController();
+                            editTravelController.setTextFields(travel);
+
+                            Parent root = loader.getRoot();
+                            Stage registerStage = new Stage();
+                            Scene scene = new Scene(root, 913, 436);
+                            scene.getStylesheets().add(Application.class.getResource("style/style.css").toExternalForm());
+                            registerStage.setScene(scene);
+                            registerStage.show();
+
                         });
 
                         HBox managebtn = new HBox(updateButton);
@@ -123,7 +135,7 @@ public class ModifyController implements Initializable {
         travelTableView.setItems(travelObservableList);
     }
 
-    public void refresh() {
+    public void refreshImageViewOnAction() {
         travelObservableList.clear();
         loadData();
     }

@@ -54,6 +54,9 @@ public class DeleteController implements Initializable {
 
     private ObservableList<Travel> travelObservableList = FXCollections.observableArrayList();
 
+    @FXML
+    private Button refreshButton;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initColumns();
