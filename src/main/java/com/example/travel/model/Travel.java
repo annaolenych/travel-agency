@@ -1,6 +1,9 @@
 package com.example.travel.model;
 
-import java.sql.Date;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.scene.control.Button;
+
 import java.time.LocalDate;
 
 public class Travel {
@@ -20,6 +23,9 @@ public class Travel {
     private LocalDate arrival;
     private LocalDate departure;
 
+    private Button delete;
+    private Button update;
+
     public Travel(Integer travelID, String firstname, String lastname, String travelType, String country, String hotel, String nutrition, String transport, LocalDate arrival, LocalDate departure) {
         this.travelID = travelID;
         this.firstname = firstname;
@@ -31,6 +37,20 @@ public class Travel {
         this.transport = transport;
         this.arrival = arrival;
         this.departure = departure;
+
+        this.delete = new Button("delete");
+        this.update = new Button("update");
+
+//        delete.setStyle(
+//                " -fx-cursor: hand ;"
+//                        + "-glyph-size:28px;"
+//                        + "-fx-fill:#ff1744;"
+//        );
+//        update.setStyle(
+//                " -fx-cursor: hand ;"
+//                        + "-glyph-size:28px;"
+//                        + "-fx-fill:#00E676;"
+//        );
     }
 
     public Integer getTravelID() {
@@ -111,5 +131,21 @@ public class Travel {
 
     public void setDeparture(LocalDate departure) {
         this.departure = departure;
+    }
+
+    public Button getDelete() {
+        return delete;
+    }
+
+    public void setDelete(Button delete) {
+        this.delete = delete;
+    }
+
+    public Button getUpdate() {
+        return update;
+    }
+
+    public void setUpdate(Button update) {
+        this.update = update;
     }
 }

@@ -3,13 +3,12 @@ package com.example.travel.controllers;
 import com.example.travel.dao.TravelDAO;
 import com.example.travel.database.config.DatabaseConnection;
 import com.example.travel.model.Travel;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -18,8 +17,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import org.jooq.DSLContext;
-import org.jooq.Record;
-import org.jooq.Result;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 
@@ -30,15 +27,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
-import de.jensd.fx.glyphs.GlyphIcon;
-
-import static com.example.travel.database.schema.tables.Country.COUNTRY;
-import static com.example.travel.database.schema.tables.Customer.CUSTOMER;
-import static com.example.travel.database.schema.tables.Hotel.HOTEL;
-import static com.example.travel.database.schema.tables.Nutrition.NUTRITION;
-import static com.example.travel.database.schema.tables.Transport.TRANSPORT;
 import static com.example.travel.database.schema.tables.Travel.TRAVEL;
-import static com.example.travel.database.schema.tables.TravelType.TRAVEL_TYPE;
 
 public class DeleteController implements Initializable {
 
@@ -82,7 +71,49 @@ public class DeleteController implements Initializable {
         arrivalColumn.setCellValueFactory(new PropertyValueFactory<>("arrival"));
         departureColumn.setCellValueFactory(new PropertyValueFactory<>("departure"));
 
-        
+        Callback<TableColumn<Travel, String>, TableCell<Travel, String>> cellFoctory = (TableColumn<Travel, String> param) -> {
+            // make cell containing buttons
+            final TableCell<Travel, String> cell = new TableCell<Travel, String>() {
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    //that cell created only on non-empty rows
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+
+                    } else {
+                        Button deleteIcon = new Button("delete");
+
+                        deleteIcon.setOnMouseClicked((MouseEvent event) -> {
+                            Travel travel = travelTableView.getSelectionModel().getSelectedItem();
+
+                            Connection connection = DatabaseConnection.getConnection();
+                            DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
+
+                            context.deleteFrom(TRAVEL)
+                                    .where(TRAVEL.TRAVEL_ID.eq(travel.getTravelID()))
+                                    .execute();
+
+                        });
+
+                        HBox managebtn = new HBox(deleteIcon);
+                        managebtn.setStyle("-fx-alignment:center");
+                        HBox.setMargin(deleteIcon, new Insets(2, 2, 0, 3));
+
+                        setGraphic(managebtn);
+
+                        setText(null);
+
+                    }
+                }
+
+            };
+
+            return cell;
+        };
+        deleteCol.setCellFactory(cellFoctory);
+        travelTableView.setItems(travelObservableList);
     }
 
     public void loadData() {
