@@ -12,6 +12,7 @@ import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,18 +22,26 @@ public class CountryDAO {
 
     public static ObservableList<Country> getObservableList() {
 
-        Connection connection = new DatabaseConnection().getConnection();
+        ObservableList<Country> observableList = null;
 
-        DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
-        Result<CountryRecord> result = context.selectFrom(COUNTRY)
-                .fetch();
+        try (Connection connection = DatabaseConnection.getConnection()) {
 
-        List<Country> list = new ArrayList<>();
-        for (CountryRecord record : result) {
-            list.add(new Country(record.getValue(COUNTRY.COUNTRY_ID), record.getValue(COUNTRY.NAME)));
+
+            DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
+            Result<CountryRecord> result = context.selectFrom(COUNTRY)
+                    .fetch();
+
+            List<Country> list = new ArrayList<>();
+            for (CountryRecord record : result) {
+                list.add(new Country(record.getValue(COUNTRY.COUNTRY_ID), record.getValue(COUNTRY.NAME)));
+            }
+
+            observableList = FXCollections.observableArrayList(list);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        ObservableList<Country> observableList = FXCollections.observableArrayList(list);
         return observableList;
     }
 

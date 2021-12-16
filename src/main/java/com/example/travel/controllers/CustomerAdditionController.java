@@ -12,6 +12,7 @@ import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import static com.example.travel.database.schema.tables.Customer.CUSTOMER;
 
@@ -36,19 +37,26 @@ public class CustomerAdditionController {
             profileLabel.setText("Fill the form!");
             profileLabel.setStyle("-fx-text-fill: red");
         } else {
-            insertCustomer(firstname, lastname, email, passportCode);
-            profileLabel.setText("Successful!");
-            profileLabel.setStyle("-fx-text-fill: green");
+            try {
+                insertCustomer(firstname, lastname, email, passportCode);
+                profileLabel.setText("Successful!");
+                profileLabel.setStyle("-fx-text-fill: green");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                e.getCause();
+            }
         }
     }
 
-    private void insertCustomer(String firstname, String lastname, String email, String passportCord) {
-        Connection connection = new DatabaseConnection().getConnection();
-        DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
+    private void insertCustomer(String firstname, String lastname, String email, String passportCord) throws SQLException {
+            Connection connection = new DatabaseConnection().getConnection();
+            DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
 
-        context.insertInto(CUSTOMER, CUSTOMER.USER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, CUSTOMER.EMAIL, CUSTOMER.PASSPORTCODE)
-                .values(DatabaseConnection.user.getUserID(), firstname, lastname, email, passportCord)
-                .execute();
+            context.insertInto(CUSTOMER, CUSTOMER.USER_ID, CUSTOMER.FIRSTNAME, CUSTOMER.LASTNAME, CUSTOMER.EMAIL, CUSTOMER.PASSPORTCODE)
+                    .values(DatabaseConnection.user.getUserID(), firstname, lastname, email, passportCord)
+                    .execute();
+
+            connection.close();
     }
 
     public void cancelButtonOnAction(ActionEvent event) {

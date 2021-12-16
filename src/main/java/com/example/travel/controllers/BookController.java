@@ -23,6 +23,7 @@ import org.jooq.impl.DSL;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -104,17 +105,20 @@ public class BookController implements Initializable {
             failedImageView.setVisible(true);
         }
         else {
-            failedImageView.setVisible(false);
-            successfulImageView.setVisible(true);
-            Connection connection = new DatabaseConnection().getConnection();
-            DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
+            try (Connection connection = DatabaseConnection.getConnection()) {
+                DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
 
-            context.insertInto(TRAVEL, TRAVEL.USER_ID, TRAVEL.CUSTOMER_ID, TRAVEL.TYPE_ID,
-                            TRAVEL.COUNTRY_ID, TRAVEL.HOTEL_ID, TRAVEL.TRANSPORT_ID, TRAVEL.NUTRITION_ID, TRAVEL.ARRIVAL, TRAVEL.DEPARTURE)
-                    .values(DatabaseConnection.user.getUserID(), customer.getCustomerID(), travelType.getTravelTypeID(),
-                            country.getCountryID(), hotel.getHotelID(), transport.getTransportID(), nutrition.getNutritionID(),
-                            arrival, departure)
-                    .execute();
+                context.insertInto(TRAVEL, TRAVEL.USER_ID, TRAVEL.CUSTOMER_ID, TRAVEL.TYPE_ID,
+                                TRAVEL.COUNTRY_ID, TRAVEL.HOTEL_ID, TRAVEL.TRANSPORT_ID, TRAVEL.NUTRITION_ID, TRAVEL.ARRIVAL, TRAVEL.DEPARTURE)
+                        .values(DatabaseConnection.user.getUserID(), customer.getCustomerID(), travelType.getTravelTypeID(),
+                                country.getCountryID(), hotel.getHotelID(), transport.getTransportID(), nutrition.getNutritionID(),
+                                arrival, departure)
+                        .execute();
+                failedImageView.setVisible(false);
+                successfulImageView.setVisible(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+             }
         }
     }
 

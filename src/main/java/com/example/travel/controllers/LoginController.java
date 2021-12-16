@@ -82,20 +82,21 @@ public class LoginController {
     }
 
     private boolean isLoginValid(String username, String password) {
-        Connection connection = new DatabaseConnection().getConnection();
 
-        DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
-        int result = context.select().
-                from(USER_ACCOUNT).
-                where(USER_ACCOUNT.USERNAME.eq(username).and(USER_ACCOUNT.PASSWORD.eq(password)))
-                        .execute();
+        int result = 0;
 
-        try {
-            connection.close();
+        try (Connection connection = DatabaseConnection.getConnection()){
+            DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
+            result = context.select().
+                    from(USER_ACCOUNT).
+                    where(USER_ACCOUNT.USERNAME.eq(username).and(USER_ACCOUNT.PASSWORD.eq(password)))
+                    .execute();
+
         } catch (SQLException e) {
             e.printStackTrace();
             e.getCause();
         }
+
 
         return result == 1 ? true : false;
     }

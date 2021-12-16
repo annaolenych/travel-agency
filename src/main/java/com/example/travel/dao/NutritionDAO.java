@@ -11,6 +11,7 @@ import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,18 +21,26 @@ public class NutritionDAO {
 
     public static ObservableList<Nutrition> getObservableList() {
 
-        Connection connection = new DatabaseConnection().getConnection();
+        ObservableList<Nutrition> observableList= null;
 
-        DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
-        Result<NutritionRecord> result = context.selectFrom(NUTRITION)
-                .fetch();
+        try (Connection connection = DatabaseConnection.getConnection()) {
 
-        List<Nutrition> list = new ArrayList<>();
-        for (NutritionRecord record : result) {
-            list.add(new Nutrition(record.getValue(NUTRITION.NUTRITION_ID), record.getValue(NUTRITION.NAME)));
+            DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
+            Result<NutritionRecord> result = context.selectFrom(NUTRITION)
+                    .fetch();
+
+            List<Nutrition> list = new ArrayList<>();
+            for (NutritionRecord record : result) {
+                list.add(new Nutrition(record.getValue(NUTRITION.NUTRITION_ID), record.getValue(NUTRITION.NAME)));
+            }
+
+            observableList = FXCollections.observableArrayList(list);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            e.getCause();
         }
 
-        ObservableList<Nutrition> observableList = FXCollections.observableArrayList(list);
         return observableList;
 
     }

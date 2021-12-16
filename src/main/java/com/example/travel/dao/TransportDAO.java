@@ -11,6 +11,7 @@ import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,18 +21,24 @@ public class TransportDAO {
 
     public static ObservableList<Transport> getObservableList() {
 
-        Connection connection = new DatabaseConnection().getConnection();
+        ObservableList<Transport> observableList = null;
 
-        DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
-        Result<TransportRecord> result = context.selectFrom(TRANSPORT)
-                .fetch();
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
+            Result<TransportRecord> result = context.selectFrom(TRANSPORT)
+                    .fetch();
 
-        List<Transport> list = new ArrayList<>();
-        for (TransportRecord record : result) {
-            list.add(new Transport(record.getValue(TRANSPORT.TRANSPORT_ID), record.getValue(TRANSPORT.NAME)));
+            List<Transport> list = new ArrayList<>();
+            for (TransportRecord record : result) {
+                list.add(new Transport(record.getValue(TRANSPORT.TRANSPORT_ID), record.getValue(TRANSPORT.NAME)));
+            }
+
+            observableList = FXCollections.observableArrayList(list);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        ObservableList<Transport> observableList = FXCollections.observableArrayList(list);
         return observableList;
     }
 }

@@ -14,6 +14,7 @@ import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import static com.example.travel.database.schema.tables.UserAccount.USER_ACCOUNT;
 
@@ -58,16 +59,16 @@ public class RegisterController {
     }
 
     public void registerUser(String firstname, String lastname, String username, String password) {
-
-        Connection connection = new DatabaseConnection().getConnection();
-        DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
-
-        context.insertInto(USER_ACCOUNT, USER_ACCOUNT.FIRSTNAME, USER_ACCOUNT.LASTNAME, USER_ACCOUNT.USERNAME, USER_ACCOUNT.PASSWORD)
-                .values(firstname, lastname, username, password)
-                .execute();
-
-        registeredLabel.setText("User registered successfully!");
-        registeredLabel.setStyle("-fx-text-fill: green");
+        try (Connection connection = DatabaseConnection.getConnection()){
+            DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
+            context.insertInto(USER_ACCOUNT, USER_ACCOUNT.FIRSTNAME, USER_ACCOUNT.LASTNAME, USER_ACCOUNT.USERNAME, USER_ACCOUNT.PASSWORD)
+                    .values(firstname, lastname, username, password)
+                    .execute();
+            registeredLabel.setText("User registered successfully!");
+            registeredLabel.setStyle("-fx-text-fill: green");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 

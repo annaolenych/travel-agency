@@ -86,14 +86,19 @@ public class DeleteController implements Initializable {
                         Button deleteIcon = new Button("delete");
 
                         deleteIcon.setOnMouseClicked((MouseEvent event) -> {
-                            Travel travel = travelTableView.getSelectionModel().getSelectedItem();
+                            Travel travel = travelTableView.getItems().get(getIndex());
 
-                            Connection connection = DatabaseConnection.getConnection();
-                            DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
+                            try (Connection connection = DatabaseConnection.getConnection()) {
 
-                            context.deleteFrom(TRAVEL)
-                                    .where(TRAVEL.TRAVEL_ID.eq(travel.getTravelID()))
-                                    .execute();
+                                DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
+
+                                context.deleteFrom(TRAVEL)
+                                        .where(TRAVEL.TRAVEL_ID.eq(travel.getTravelID()))
+                                        .execute();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+
                             refresh();
                         });
 

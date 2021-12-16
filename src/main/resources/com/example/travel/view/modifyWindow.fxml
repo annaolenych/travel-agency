@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<Pane prefHeight="436.0" prefWidth="913.0" style="-fx-background-color: #E7F2F8;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" />
+<Pane prefHeight="436.0" prefWidth="913.0" style="-fx-background-color: #E7F2F8;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.travel.controllers.ModifyController">
+   <children>
+      <TableView fx:id="travelTableView" layoutX="10.0" layoutY="58.0" prefHeight="358.0" prefWidth="891.0">
+         <columns>
+            <TableColumn fx:id="firstnameColumn" resizable="false" text="Firstname" />
+            <TableColumn fx:id="lastnameColumn" prefWidth="87.0" resizable="false" text="Lastname" />
+            <TableColumn fx:id="traveltypeColumn" prefWidth="86.0" resizable="false" text="Travel type" />
+            <TableColumn fx:id="countryColumn" prefWidth="101.0" resizable="false" text="Country" />
+            <TableColumn fx:id="hotelColumn" prefWidth="124.0" resizable="false" text="Hotel" />
+            <TableColumn fx:id="nutritionColumn" prefWidth="59.0" text="Nutrition" />
+            <TableColumn fx:id="transportColumn" text="Transport" />
+            <TableColumn fx:id="arrivalColumn" prefWidth="103.0" resizable="false" text="Arrival" />
+            <TableColumn fx:id="departureColumn" prefWidth="92.0" resizable="false" text="Departure" />
+            <TableColumn fx:id="deleteCol" prefWidth="78.0" resizable="false" text="Action" />
+         </columns>
+      </TableView>
+      <Text layoutX="25.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Customers" wrappingWidth="409.13671875">
+         <font>
+            <Font name="Bauhaus 93" size="36.0" />
+         </font>
+      </Text>
+   </children>
+</Pane>

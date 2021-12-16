@@ -11,6 +11,7 @@ import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,18 +21,26 @@ public class TravelTypeDAO {
 
     public static ObservableList<TravelType> getObservableList() {
 
-        Connection connection = new DatabaseConnection().getConnection();
+        ObservableList<TravelType> observableList = null;
 
-        DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
-        Result<TravelTypeRecord> result = context.selectFrom(TRAVEL_TYPE)
-                .fetch();
+        try (Connection connection = DatabaseConnection.getConnection()) {
 
-        List<TravelType> list = new ArrayList<>();
-        for (TravelTypeRecord record : result) {
-            list.add(new TravelType(record.getValue(TRAVEL_TYPE.TYPE_ID), record.getValue(TRAVEL_TYPE.NAME)));
+            DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
+            Result<TravelTypeRecord> result = context.selectFrom(TRAVEL_TYPE)
+                    .fetch();
+
+            List<TravelType> list = new ArrayList<>();
+            for (TravelTypeRecord record : result) {
+                list.add(new TravelType(record.getValue(TRAVEL_TYPE.TYPE_ID), record.getValue(TRAVEL_TYPE.NAME)));
+            }
+
+            observableList = FXCollections.observableArrayList(list);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            e.getCause();
         }
 
-        ObservableList<TravelType> observableList = FXCollections.observableArrayList(list);
         return observableList;
     }
 

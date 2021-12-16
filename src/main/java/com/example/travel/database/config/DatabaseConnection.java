@@ -26,28 +26,29 @@ public class DatabaseConnection {
     private static final String PASSWORD = "7uCCB9zwEM";
     private static final String DB_NAME = "sql4458432";
 
-    public static Connection getConnection() {
+    public static Connection getConnection() throws SQLException {
 
-        try  {
-            connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:%d/%s", HOST, PORT, DB_NAME), USER, PASSWORD);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            e.getCause();
-        }
+        connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:%d/%s", HOST, PORT, DB_NAME), USER, PASSWORD);
 
         return connection;
     }
 
     public static void initUserAccount(String username, String password) {
 
-        Connection connection = new DatabaseConnection().getConnection();
-        DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            DSLContext context = DSL.using(connection, SQLDialect.MYSQL);
 
-        Result<UserAccountRecord> result = context.selectFrom(USER_ACCOUNT)
-                .where(USER_ACCOUNT.USERNAME.eq(username).and(USER_ACCOUNT.PASSWORD.eq(password)))
-                .fetch();
+            Result<UserAccountRecord> result = context.selectFrom(USER_ACCOUNT)
+                    .where(USER_ACCOUNT.USERNAME.eq(username).and(USER_ACCOUNT.PASSWORD.eq(password)))
+                    .fetch();
 
-        user = new UserAccount(result.get(0).getValue(USER_ACCOUNT.ACCOUNT_ID), username, password);
+            user = new UserAccount(result.get(0).getValue(USER_ACCOUNT.ACCOUNT_ID), username, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 
