@@ -27,22 +27,4 @@ public class MainWindowController {
 
     }
 
-
-    public void searchButtonOnAction(ActionEvent event) {
-
-    }
-
-    public void bookButtonOnAction(ActionEvent event) {
-
-    }
-
-    public void modifyButtonOnAction(ActionEvent event) {
-
-    }
-
-    public void deleteButtonOnAction(ActionEvent event) {
-
-    }
-
-
 }

@@ -18,19 +18,18 @@ public class DatabaseConnection {
 
     public static UserAccount user;
 
-    public Connection connection;
+    public static Connection connection;
 
-   // private static final String URL = "jdbc:mysql://localhost:3306/travel_agency";
-    private static final String URL = "jdbc:mysql://sql4.freemysqlhosting.net:3306/sql4458432";
-  //  private static final String USER = "root";
+    private static final String HOST = "sql4.freemysqlhosting.net";
+    private static final Integer PORT = 3306;
     private static final String USER = "sql4458432";
-  //  private static final String PASSWORD = "root";
     private static final String PASSWORD = "7uCCB9zwEM";
+    private static final String DB_NAME = "sql4458432";
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
 
         try  {
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:%d/%s", HOST, PORT, DB_NAME), USER, PASSWORD);
         } catch (SQLException e) {
             e.printStackTrace();
             e.getCause();
